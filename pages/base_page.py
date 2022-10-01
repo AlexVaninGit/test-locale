@@ -48,7 +48,11 @@ class BasePage:
         except NoAlertPresentException:
             print("No second alert presented")
 
-    def is_disappeared(self, how, what, timeout=4):
+    def should_be_authorized_user(self):
+        self.browser.implicitly_wait(15)
+        assert self.is_element_present(*BaseLocators.USER_ICON)
+
+    def is_disappeared(self, how, what, timeout=6):
         try:
             WebDriverWait(self.browser, timeout, 1, TimeoutException).until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException:
